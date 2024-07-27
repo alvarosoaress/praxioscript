@@ -8,6 +8,8 @@
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=praxio.com.br
 // @require      http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
 // @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
+// @downloadURL  https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
+// @updateURL    https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
 // @run-at       document-idle
 // @grant        GM_addStyle
 // ==/UserScript==
