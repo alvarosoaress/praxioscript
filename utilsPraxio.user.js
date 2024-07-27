@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.0.2
+// @version      1.0.3
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket/TicketPrincipal/*
@@ -60,7 +60,7 @@ function main() {
 
 	customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM);
 
-	customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM);
+	document.querySelector('#msgAvaliacao1') ? null : customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM);
 }
 
 function globalVar() {
