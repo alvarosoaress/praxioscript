@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.0.1
+// @version      1.0.2
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket/TicketPrincipal/*
@@ -23,29 +23,35 @@
 function main() {
 	const styles = `
       .copyBtnStyle {
-          display: block;
-          background-color: #F9F9F9;
-          cursor: pointer;
-          color: #999;
-          border: 1px solid rgb(197, 208, 220);
-          padding: 7px 12px 8px;
-          line-height: 18px;
+        display: block;
+		background-color: #F9F9F9;
+		cursor: pointer;
+		color: #999;
+		border: 1px solid rgb(197, 208, 220);
+		padding: 7px 12px 8px;
+		line-height: 18px;
       }
   
       .copyBtnStyle:hover {
-          background-color: #FFF;
-          border: 1px solid #000;
-          color: #cc0000;
+		background-color: #FFF;
+		border: 1px solid #000;
+		color: #cc0000;
       }
 
       .azureBtnStyle:hover {
         color: #0078d4;
       }
   
-      .selectDefaultTextStyle {
-          background: #FFF;
-          vertical-align: middle;
+      .selectDefaultTextStyle, .selectDefaultTextStyle:focus {
+		background: #FFF;
+		vertical-align: middle;
+		background-color: #FAFAFA !important;
       }
+
+	  .selectTopic {
+		background: #d5d5d5;
+		font-weight: bold;
+	  }
       `;
 
 	GM_addStyle(styles);
@@ -171,11 +177,27 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 			const option = document.createElement("option");
 			option.text = opt.text;
 			option.value = opt.value;
+			option.disabled = opt.disabled;
+			option.addEventListener('click', () => console.log('piroquinha'));
+			if(opt.disabled) option.classList.add("selectTopic");
 			selectDefaultText.appendChild(option);
 		});
 	}
 
+	const situations = {
+		"Em andamento": document.querySelector('#listaStatus').querySelector(':nth-child(1)').children[0],
+		"Pendente Cliente": document.querySelector('#listaStatus').querySelector(':nth-child(2)').children[0],
+		"Aguardando Ad": document.querySelector('#listaStatus').querySelector(':nth-child(3)').children[0],
+		"Cancelado": document.querySelector('#listaStatus').querySelector(':nth-child(4)').children[0],
+		"Concluído": document.querySelector('#listaStatus').querySelector(':nth-child(4)').children[0],
+	}
+
 	const optionsArray = [
+		{
+			text: "TESTE",
+			value: ``,
+			disabled: true,
+		},
 		{
 			text: "Teste - inicio",
 			value: `${ticketClient}, bom dia.<br>
@@ -187,6 +209,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                     <b>Att.<br>
                     *Setor de testes/Qualidade de  Software*</b>
                     `,
+			situation: situations["Aguardando Ad"]
 		},
 		{
 			text: "Teste - finalizado",
@@ -200,6 +223,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                     <b>Att.<br>
                     *Setor de testes/Qualidade de Software*</b>
                     `,
+			situation: situations["Aguardando Ad"]
 		},
 		{
 			text: "Versão cliente - LOCAL",
@@ -219,6 +243,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                     <b>Att.<br>
                     *Setor de testes/Qualidade de Software*</b><br>
                     `,
+			situation: situations["Pendente Cliente"]
 		},
 		{
 			text: "Versão cliente - NUVEM",
@@ -237,6 +262,12 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                     <b>Att.<br>
                     *Setor de testes/Qualidade de Software*</b><br>
                     `,
+			situation: situations["Pendente Cliente"]
+		},
+		{
+			text: "PRODUTO",
+			value: ``,
+			disabled: true,
 		},
 		{
 			text: "Retorno - Em Analise",
@@ -244,6 +275,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                         <br>
                         Qualquer duvida estamos a disposição.
                     `,
+			situation: situations["Aguardando Ad"]
 		},
 	];
 
@@ -268,6 +300,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 
 	selectDefaultText.addEventListener("change", (e) => {
 		fillTextArea(e.target.value);
+		optionsArray[selectDefaultText.selectedIndex-1].situation.click();
 	});
 
 	cabecalhoTramite.appendChild(selectDefaultText);
