@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.0.3
+// @version      1.0.4
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket/TicketPrincipal/*
@@ -58,9 +58,9 @@ function main() {
 
 	const { ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM } = globalVar();
 
-	customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM);
+	document.querySelector('.copyBtnStyle') ? null : customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM);
 
-	document.querySelector('#msgAvaliacao1') ? null : customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM);
+	document.querySelector('.selectDefaultTextStyle') && !document.querySelector('#msgAvaliacao1') ? customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) : null 
 }
 
 function globalVar() {
@@ -178,7 +178,6 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 			option.text = opt.text;
 			option.value = opt.value;
 			option.disabled = opt.disabled;
-			option.addEventListener('click', () => console.log('piroquinha'));
 			if(opt.disabled) option.classList.add("selectTopic");
 			selectDefaultText.appendChild(option);
 		});
