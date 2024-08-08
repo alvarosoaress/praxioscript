@@ -1,13 +1,12 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.0.5
+// @version      1.0.6
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
-// @match        https://portaldocliente.praxio.com.br/Ticket/TicketPrincipal/*
+// @match        https://portaldocliente.praxio.com.br/Ticket*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=praxio.com.br
-// @require      http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
-// @require      https://gist.github.com/raw/2625891/waitForKeyElements.js
+// @require 	 https://cdn.jsdelivr.net/gh/CoeJoder/waitForKeyElements.js@v1.3/waitForKeyElements.js
 // @downloadURL  https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
 // @updateURL    https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
 // @run-at       document-idle
@@ -17,10 +16,15 @@
 (function () {
 	"use strict";
 
-	waitForKeyElements("#AdequacoesVinculadasRow_Nenhuma", () => main());
+    if(window.location.href.includes('TicketPrincipal')){
+        waitForKeyElements("#AdequacoesVinculadasRow_Nenhuma", () => mainTicket());
+    }else{
+        waitForKeyElements("#grdTicket", () => mainHistory());
+    }
+
 })();
 
-function main() {
+function mainTicket() {
 	const styles = `
       .copyBtnStyle {
         display: block;
@@ -31,7 +35,7 @@ function main() {
 		padding: 7px 12px 8px;
 		line-height: 18px;
       }
-  
+
       .copyBtnStyle:hover {
 		background-color: #FFF;
 		border: 1px solid #000;
@@ -41,7 +45,7 @@ function main() {
       .azureBtnStyle:hover {
         color: #0078d4;
       }
-  
+
       .selectDefaultTextStyle, .selectDefaultTextStyle:focus {
 		background: #FFF;
 		vertical-align: middle;
@@ -60,7 +64,7 @@ function main() {
 
 	document.querySelector('.copyBtnStyle') ? null : customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM);
 
-	!document.querySelector('.selectDefaultTextStyle') && !document.querySelector('#msgAvaliacao1') ? customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) : null 
+	!document.querySelector('.selectDefaultTextStyle') && !document.querySelector('#msgAvaliacao1') ? customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) : null
 }
 
 function globalVar() {
@@ -303,4 +307,100 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 	});
 
 	cabecalhoTramite.appendChild(selectDefaultText);
+}
+
+function mainHistory(){
+    const styles = `
+      .histBtn {
+        display: block;
+		background-color: #F9F9F9;
+		cursor: pointer;
+		color: #999;
+        border: 1px solid gray;
+      }
+
+      .histBtn:hover {
+		background-color: #FFF;
+		border: 1px solid #000;
+		color: #cc0000;
+      }
+
+      .histBlock {
+        display: flex;
+		flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        padding-inline: 0;
+      }
+
+      .azureBtnStyle:hover {
+        color: #0078d4;
+      }
+
+      .selectDefaultTextStyle, .selectDefaultTextStyle:focus {
+		background: #FFF;
+		vertical-align: middle;
+		background-color: #FAFAFA !important;
+      }
+
+	  .selectTopic {
+		background: #d5d5d5;
+		font-weight: bold;
+	  }
+      `;
+
+	GM_addStyle(styles);
+
+    historyButton();
+
+	interceptNetworkRequests({
+		onLoad: (data) => {
+			if(data.currentTarget.responseURL.includes('ObterListaOrdenacao') || data.currentTarget.responseURL.includes('ObterListaFiltro') ||  data.currentTarget.responseURL.includes('PesquisaPartial')){
+				setTimeout(() => {
+                    historyButton();
+                }, "100");
+			}
+		}
+	});
+}
+
+function historyButton(){
+    const ticketArray = document.querySelectorAll('.dxgvDataRow_Metropolis');
+    const customBtn = document.createElement('button');
+
+    customBtn.innerText = 'Hist';
+    customBtn.classList = 'histBtn';
+
+    ticketArray.forEach((el) => {
+        el.firstElementChild.classList.add('histBlock');
+        el.firstElementChild.appendChild(customBtn.cloneNode(true));
+    })
+}
+
+// credits: https://gist.githubusercontent.com/benjamingr/0433b52559ad61f6746be786525e97e8/raw/df41dfca476c1b06db4d8480b6e47ddd7e190c6a/intercept-network-requests.js
+function interceptNetworkRequests(ee) {
+    const open = XMLHttpRequest.prototype.open;
+    const send = XMLHttpRequest.prototype.send;
+
+    const isRegularXHR = open.toString().indexOf('native code') !== -1;
+
+    if (isRegularXHR) {
+        XMLHttpRequest.prototype.open = function() {
+            ee.onOpen && ee.onOpen(this, arguments);
+            if (ee.onLoad) {
+                this.addEventListener('load', ee.onLoad.bind(ee));
+            }
+            if (ee.onError) {
+                this.addEventListener('error', ee.onError.bind(ee));
+            }
+            return open.apply(this, arguments);
+        };
+        XMLHttpRequest.prototype.send = function() {
+            ee.onSend && ee.onSend(this, arguments);
+            return send.apply(this, arguments);
+        };
+    }
+
+    return ee;
 }
