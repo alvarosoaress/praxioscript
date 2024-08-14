@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.0.6
+// @version      1.0.7
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket*
@@ -197,6 +197,27 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 
 	const optionsArray = [
 		{
+			text: "PRODUTO",
+			value: ``,
+			disabled: true,
+		},
+		{
+			text: "Retorno - Em Analise",
+			value: `Olá ${ticketClient}, estamos analisando e em breve daremos um retorno.<br>
+                        <br>
+                        Qualquer duvida estamos a disposição.
+                    `,
+			situation: situations["Aguardando Ad"]
+		},
+		{
+			text: "Retorno - Fila de desenvolvimento",
+			value: `Olá ${ticketClient}, 
+					<br>
+					<br>Demanda se encontra na fila de desenvolvimento, qualquer novidade lhe manteremos informado ;).<br>
+                    `,
+			situation: situations["Aguardando Ad"]
+		},
+		{
 			text: "TESTE",
 			value: ``,
 			disabled: true,
@@ -266,19 +287,6 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                     *Setor de testes/Qualidade de Software*</b><br>
                     `,
 			situation: situations["Pendente Cliente"]
-		},
-		{
-			text: "PRODUTO",
-			value: ``,
-			disabled: true,
-		},
-		{
-			text: "Retorno - Em Analise",
-			value: `Olá ${ticketClient}, estamos analisando e em breve daremos um retorno.<br>
-                        <br>
-                        Qualquer duvida estamos a disposição.
-                    `,
-			situation: situations["Aguardando Ad"]
 		},
 	];
 
