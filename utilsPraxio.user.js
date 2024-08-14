@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.0.7
+// @version      1.0.8
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket*
@@ -41,6 +41,12 @@ function mainTicket() {
 		border: 1px solid #000;
 		color: #cc0000;
       }
+
+	  .copyCellphoneBtn {
+	 	position: absolute;
+		right: 0;
+		padding: 7px 7px 7px; 
+	  }
 
       .azureBtnStyle:hover {
         color: #0078d4;
@@ -117,14 +123,20 @@ function globalVar() {
 function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 	const tabsNav = document.querySelector("#abasTicketPrincipal");
 
+	const telephoneInput = document.getElementById('TicketMlo_OperadorContato_Telefone');
+	const cellphoneInput = document.getElementById('TicketMlo_OperadorContato_Celular');
+
 	const copyTitleWrapper = document.createElement("li");
 	const copyTitleBtn = document.createElement("btn");
 
 	const copyNumberWrapper = document.createElement("li");
 	const copyNumberBtn = document.createElement("btn");
 
-	const AzureWrapper = document.createElement("li");
-	const AzureBtn = document.createElement("btn");
+	const azureWrapper = document.createElement("li");
+	const azureBtn = document.createElement("btn");
+
+	const copyCellphoneBtn = document.createElement("btn");
+	const copyTelephoneBtn = document.createElement("btn");
 
 	copyTitleBtn.innerHTML = `<i class="fa fa-clipboard"></i> Copiar Título`;
 	copyTitleBtn.classList.add("copyBtnStyle");
@@ -132,8 +144,14 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 	copyNumberBtn.innerHTML = `<i class="fa fa-clipboard"></i> Copiar Nº do ticket`;
 	copyNumberBtn.classList.add("copyBtnStyle");
 
-	AzureBtn.innerHTML = `<i class="fa fa-external-link-square" aria-hidden="true"></i> Azure`;
-	AzureBtn.classList = "copyBtnStyle azureBtnStyle";
+	azureBtn.innerHTML = `<i class="fa fa-external-link-square" aria-hidden="true"></i> Azure`;
+	azureBtn.classList = "copyBtnStyle azureBtnStyle";
+
+	copyTelephoneBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
+	copyTelephoneBtn.classList = "copyBtnStyle copyCellphoneBtn";
+
+	copyCellphoneBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
+	copyCellphoneBtn.classList = "copyBtnStyle copyCellphoneBtn";
 
 	copyTitleWrapper.appendChild(copyTitleBtn);
 	tabsNav.appendChild(copyTitleWrapper);
@@ -141,11 +159,16 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 	copyNumberWrapper.appendChild(copyNumberBtn);
 	tabsNav.appendChild(copyNumberWrapper);
 
-	AzureWrapper.appendChild(AzureBtn);
-	tabsNav.appendChild(AzureWrapper);
+	azureWrapper.appendChild(azureBtn);
+	tabsNav.appendChild(azureWrapper);
+
+	cellphoneInput.parentElement.appendChild(copyCellphoneBtn);
+	telephoneInput.parentElement.appendChild(copyTelephoneBtn);
 
 	const ticketTitle = document.querySelector("#AssuntoAtualizado").innerHTML;
 	const ticketNumber = document.querySelector("#TicketMlo_Protocolo").value;
+	const cellphoneNumber = cellphoneInput.value.replace(/\D/g, '');
+	const telephoneNumber = telephoneInput.value.replace(/\D/g, '');
 
 	copyTitleBtn.addEventListener("click", () => {
 		navigator.clipboard.writeText(ticketTitle);
@@ -163,10 +186,26 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 		}, 1000);
 	});
 
-	AzureBtn.addEventListener("click", () => {
+	azureBtn.addEventListener("click", () => {
 		window.open(
 			`https://dev.azure.com/praxio/Autumn/_search?text=${allTicketPSESIM.join(" OR ")}&type=workitem&lp=workitems-Team&filters=Projects%7BAutumn%7D&pageSize=25`,
 		);
+	});
+
+	copyCellphoneBtn.addEventListener("click", () => {
+		navigator.clipboard.writeText(cellphoneNumber);
+		copyCellphoneBtn.innerHTML = `<i class="fa fa-check-square"></i>`;
+		setTimeout(() => {
+			copyCellphoneBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
+		}, 1000);
+	});
+
+	copyTelephoneBtn.addEventListener("click", () => {
+		navigator.clipboard.writeText(telephoneNumber);
+		copyTelephoneBtn.innerHTML = `<i class="fa fa-check-square"></i>`;
+		setTimeout(() => {
+			copyTelephoneBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
+		}, 1000);
 	});
 }
 
