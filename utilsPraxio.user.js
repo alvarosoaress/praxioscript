@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.0.8
+// @version      1.0.85
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket*
@@ -125,6 +125,7 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 
 	const telephoneInput = document.getElementById('TicketMlo_OperadorContato_Telefone');
 	const cellphoneInput = document.getElementById('TicketMlo_OperadorContato_Celular');
+	const emailInput = document.getElementById('TicketMlo_OperadorContato_Usuario');
 
 	const copyTitleWrapper = document.createElement("li");
 	const copyTitleBtn = document.createElement("btn");
@@ -137,6 +138,7 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 
 	const copyCellphoneBtn = document.createElement("btn");
 	const copyTelephoneBtn = document.createElement("btn");
+	const copyEmailBtn = document.createElement("btn");
 
 	copyTitleBtn.innerHTML = `<i class="fa fa-clipboard"></i> Copiar Título`;
 	copyTitleBtn.classList.add("copyBtnStyle");
@@ -153,6 +155,9 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 	copyCellphoneBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
 	copyCellphoneBtn.classList = "copyBtnStyle copyCellphoneBtn";
 
+	copyEmailBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
+	copyEmailBtn.classList = "copyBtnStyle copyCellphoneBtn";
+
 	copyTitleWrapper.appendChild(copyTitleBtn);
 	tabsNav.appendChild(copyTitleWrapper);
 
@@ -164,11 +169,14 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 
 	cellphoneInput.parentElement.appendChild(copyCellphoneBtn);
 	telephoneInput.parentElement.appendChild(copyTelephoneBtn);
+	emailInput.parentElement.appendChild(copyEmailBtn);
 
 	const ticketTitle = document.querySelector("#AssuntoAtualizado").innerHTML;
 	const ticketNumber = document.querySelector("#TicketMlo_Protocolo").value;
+
 	const cellphoneNumber = cellphoneInput.value.replace(/\D/g, '');
 	const telephoneNumber = telephoneInput.value.replace(/\D/g, '');
+	const email = emailInput.value;
 
 	copyTitleBtn.addEventListener("click", () => {
 		navigator.clipboard.writeText(ticketTitle);
@@ -205,6 +213,14 @@ function customBtn(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 		copyTelephoneBtn.innerHTML = `<i class="fa fa-check-square"></i>`;
 		setTimeout(() => {
 			copyTelephoneBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
+		}, 1000);
+	});
+
+	copyEmailBtn.addEventListener("click", () => {
+		navigator.clipboard.writeText(email);
+		copyEmailBtn.innerHTML = `<i class="fa fa-check-square"></i>`;
+		setTimeout(() => {
+			copyEmailBtn.innerHTML = `<i class="fa fa-clipboard"></i>`;
 		}, 1000);
 	});
 }
