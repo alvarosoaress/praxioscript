@@ -1,10 +1,13 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.1.0
+// @version      1.2.0
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket*
+// @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/SIGAI/Autumn/SIGAI/*?workitem=*
+// @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/SIGAI/Autumn/SIGAI/*&workitem=*
+// @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/SIGAI/Autumn/SIGAI/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=praxio.com.br
 // @require 	   https://cdn.jsdelivr.net/gh/CoeJoder/waitForKeyElements.js@v1.3/waitForKeyElements.js
 // @downloadURL  https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
@@ -20,8 +23,12 @@ const API_URL = localStorage.getItem('apiKey') ? localStorage.getItem('apiKey').
 
   if (window.location.href.includes("TicketPrincipal")) {
     waitForKeyElements("#AdequacoesVinculadasRow_Nenhuma", () => mainTicket());
-  } else {
+  } else if (window.location.href.includes("portaldocliente")) {
     waitForKeyElements("#grdTicket", () => mainHistory());
+  }
+  else {
+    // waitForKeyElements(`[aria-label="Description"]`, () => mainAzure());
+    mainAzure()
   }
 })();
 
@@ -923,7 +930,7 @@ function renderMessages(msgList, userLogged) {
     modalMsg.innerText = `${msg.message}`;
 
     modalMsgInfo.innerHTML = ` ${msg.sender} <br> ${new Date(msg.date).toLocaleString()}`;
-    modalMsgInfo.style.textAlign = 'right';
+    modalMsgInfo.style.textAlign = userLogged === msg.sender ?  "right" :  "flex-left";
 
 
     modalMsgWrapper.appendChild(modalMsgInfo);
@@ -932,6 +939,65 @@ function renderMessages(msgList, userLogged) {
   });
 
   modalContent.scrollTop = modalContent.scrollHeight;
+}
+
+function mainAzure(){
+  interceptNetworkRequests({
+    onLoad: (data) => {
+      if (
+        data.currentTarget.responseURL.includes("dataProviders") 
+      ) {
+        setTimeout(() => {
+          waitForKeyElements(`[aria-label="Description"]`, () => {
+            let {ticket} = azureVars();
+            azureCustomBtn(ticket);
+          })
+        }, "100");
+      }
+    },
+  });
+}
+
+function azureVars() {
+  const description = document.querySelector(`[aria-label="Description"]`);
+  const criteria = document.querySelector(`[aria-label="Acceptance Criteria"]`);
+
+  const regexTicket = /\b\d{4}-\d{6}\b/g;
+
+  const ticket = (description.innerText + " " + criteria.innerText).match(regexTicket);
+
+  return {ticket}
+}
+
+function azureCustomBtn(ticket){
+  const oldHistBtn = document.querySelectorAll(".portalTicket");
+
+  if (oldHistBtn.length > 0) oldHistBtn.forEach((btn) => btn.remove());
+
+  const tabsNav = document.querySelector(`[aria-label="Details"]`).parentElement;
+
+  const portalTicket = document.createElement("div");
+  
+  const portalIcon = document.createElement("img");
+  portalIcon.src = "https://www.google.com/s2/favicons?sz=64&domain=praxio.com.br";
+  portalIcon.style.width = "20px";
+  portalIcon.style.height = "20px";
+  portalTicket.appendChild(portalIcon);
+
+  const arrowIcon = document.createElement("span");
+  arrowIcon.classList = "fabric-icon ms-Icon--ArrowTallUpRight";
+  portalTicket.appendChild(arrowIcon);
+  
+  portalTicket.classList = 'bolt-tab focus-treatment flex-noshrink portalTicket';
+  portalTicket.style.display = 'inline-flex';
+  portalTicket.style.justifyContent = 'center';
+  portalTicket.style.alignItems = 'center';
+
+  portalTicket.addEventListener("click", () => {
+    window.open(`https://portaldocliente.praxio.com.br/Ticket/PesquisaTramites?tipoPesquisa=1&pesquisaChave=${ticket[0]}`);
+  });
+
+  tabsNav.appendChild(portalTicket);
 }
 
 // credits: https://gist.githubusercontent.com/benjamingr/0433b52559ad61f6746be786525e97e8/raw/df41dfca476c1b06db4d8480b6e47ddd7e190c6a/intercept-network-requests.js
@@ -960,5 +1026,3 @@ function interceptNetworkRequests(ee) {
 
   return ee;
 }
-
-// background-color: #2679b542;
