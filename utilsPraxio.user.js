@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.3.0
+// @version      1.3.1
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket*
 // @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/*/Autumn/*/*?workitem=*
 // @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/*/Autumn/*/*&workitem=*
 // @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/*/Autumn/*/*
+// @match        https://dev.azure.com/praxio/Autumn/_boards/board/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=praxio.com.br
 // @require 	   https://cdn.jsdelivr.net/gh/CoeJoder/waitForKeyElements.js@v1.3/waitForKeyElements.js
 // @downloadURL  https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
@@ -1202,6 +1203,8 @@ function azureCustomBtn(ticket){
   const oldHistBtn = document.querySelectorAll(".portalTicket");
 
   if (oldHistBtn.length > 0) oldHistBtn.forEach((btn) => btn.remove());
+
+  if (!ticket) return;
 
   const tabsNav = document.querySelector(`[aria-label="Details"]`).parentElement;
 
