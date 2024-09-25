@@ -811,6 +811,8 @@ function mainHistory() {
 
   historyButton();
 
+  testeTag();
+
   interceptNetworkRequests({
     onLoad: (data) => {
       if (
@@ -1170,6 +1172,83 @@ function linkModal(elementId) {
     }
   });
 }
+
+async function testeTag() {
+  // const oldHistBtn = document.querySelectorAll(".histBtn");
+
+  // if (oldHistBtn.length > 0) oldHistBtn.forEach((btn) => btn.remove());
+
+  // const ticketsWithHistory = await fetch(`${API_URL}/alltickets`).then((res) =>
+  //   res.json()
+  // );
+
+  function createTags(ticketRow) {
+    const tagContainer = document.createElement("div");
+    const tagRed = document.createElement("div");
+
+    tagContainer.style.display = 'flex';
+    tagRed.style.width = '10px';
+    tagRed.style.height = '10px';
+    tagRed.style.backgroundColor = 'rgb(255, 165, 0)';
+    tagRed.style.borderRadius = '99px';
+    tagRed.style.color = 'white';
+    // tagContainer.classList = "histBtn";
+    // tagContainer.type = "button";
+
+    ticketRow.addEventListener('mouseover', () => {
+      tagRed.innerText = 'PSE'
+      tagRed.style.width = 'fit-content'
+      tagRed.style.height = 'fit-content'
+      tagRed.style.paddingInline = '5px'
+    })
+
+    ticketRow.addEventListener('mouseleave', () => {
+      tagRed.innerText = ''
+      tagRed.style.width = '10px'
+      tagRed.style.height = '10px'
+      tagRed.style.paddingInline = '0px'
+    })
+
+    tagContainer.appendChild(tagRed)
+
+    // tagContainer.addEventListener("click", () => {
+    //   tagContainer.blur();
+    //   historyModal(ticketNumber);
+    // });
+
+    return tagContainer;
+  }
+
+  const ticketArray = document.querySelectorAll(".dxgvDataRow_Metropolis");
+  ticketArray.forEach((el) => {
+    const ticketNumber = el
+      .querySelector("td:nth-child(2)")
+      .innerText.replace(/\D/g, "");
+
+    const testeDiv = document.createElement('div');
+
+    const ticket = el.querySelector("td:nth-child(3)")
+    const ticketName = el.querySelector("td:nth-child(3)").innerText
+
+    const tags = createTags(ticket);
+
+    testeDiv.style.display = 'flex';
+    testeDiv.style.alignItems = 'center';
+    testeDiv.style.gap = '5px';
+
+    const testeSpan = document.createElement("span")
+
+    testeSpan.innerText = ticketName;
+
+    testeDiv.appendChild(tags)
+    testeDiv.appendChild(testeSpan)
+
+    ticket.innerHTML = ""
+    ticket.appendChild(testeDiv)
+    // el.querySelector("td:nth-child(3)").innerHTML = ticketName + tags
+  });
+}
+
 
 function mainAzure(){
   interceptNetworkRequests({
