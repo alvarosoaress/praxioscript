@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.5.0
+// @version      1.6.0
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket*
@@ -18,8 +18,6 @@
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/azure.js
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/hyperlink.js
 // -- @require      https://github.com/alvarosoaress/praxioscript/raw/master/alert.js
-// @require      https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css
-// @require      https://cdn.tailwindcss.com/3.4.16
 // @downloadURL  https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
 // @updateURL    https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
 // @run-at       document-idle
