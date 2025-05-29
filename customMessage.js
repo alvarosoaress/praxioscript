@@ -49,6 +49,15 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
 
   const nextFriday = new Date(new Date().setUTCDate(new Date().getUTCDate() + (5 - new Date().getDay()))).toLocaleDateString('pt-BR', { year: 'numeric', month: '2-digit', day: '2-digit' })
 
+  function dateTimeMessage() {
+    const hour = new Date().getHours();
+    let message = 'bom dia.'
+
+    if (hour >= 12 && hour <= 18) message = 'boa tarde.'
+
+    return message;
+  } 
+
   const optionsArray = [
     {
       text: "PRODUTO",
@@ -78,7 +87,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     },
     {
       text: "Teste - inicio",
-      value: `${ticketClient}, bom dia.<br>
+      value: `${ticketClient}, ${dateTimeMessage()}<br>
                       <br>
                       Demanda já finalizada pelo nosso time de Dev.<br>
                       Nesse momento em fase de testes.<br>
@@ -90,11 +99,25 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
       situation: situations["Aguardando Ad"],
     },
     {
-      text: "Teste - finalizado",
-      value: `${ticketClient}, bom dia.<br>
+      text: "Teste - finalizado SIGA",
+      value: `${ticketClient}, ${dateTimeMessage()}<br>
                       <br>
                       Testes foram finalizados com sucesso.<br>
-                      <b>Necessário somente aguardar a próxima atualização de Release do SIGAi prevista para ${nextMonth}/2024</b>.<br>
+                      <b>Necessário somente aguardar a próxima atualização de Release do SIGA prevista para ${nextMonth}/${new Date().getFullYear()}</b>.<br>
+                      <br>
+                      Até lá lhe manteremos informado por aqui em qualquer novidade.<br>
+                      <br>
+                      <b>Att.<br>
+                      *Setor de testes/Qualidade de Software*</b>
+                      `,
+      situation: situations["Aguardando Ad"],
+    },
+    {
+      text: "Teste - finalizado LUNA",
+      value: `${ticketClient}, ${dateTimeMessage()}<br>
+                      <br>
+                      Testes foram finalizados com sucesso.<br>
+                      <b>Necessário somente aguardar a próxima atualização de Release do Luna prevista para ${nextMonth}/${new Date().getFullYear()}</b>.<br>
                       <br>
                       Até lá lhe manteremos informado por aqui em qualquer novidade.<br>
                       <br>
@@ -105,12 +128,12 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     },
     {
       text: "Versão cliente - LOCAL",
-      value: `${ticketClient}, bom dia.<br>
+      value: `${ticketClient}, ${dateTimeMessage()}<br>
                       <br>
                       Finalizamos a solicitação de desenvolvimento nº:<br>
                       <b>${ticketPSESIM} - DESCRIÇÃO</b><br>
                       <br>
-                      <b>Segue anexo contendo, manual de orientação, script do banco de dados e versão SIGAiXX X.X.XX</b><br>
+                      <b>Segue anexo contendo, manual de orientação, script do banco de dados e versão SIGAXX X.X.XX</b><br>
                       <br>
                       Favor entrar em contato com o suporte para atualização da versão caso necessário.<br>
                       Não é recomendada a atualização de versão na sexta-feira.<br>
@@ -125,12 +148,12 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     },
     {
       text: "Versão cliente - NUVEM",
-      value: `${ticketClient}, bom dia.<br>
+      value: `${ticketClient}, ${dateTimeMessage()}<br>
                       <br>
                       Finalizamos a solicitação de desenvolvimento nº:<br>
                       <b>${ticketPSESIM} - DESCRIÇÃO</b><br>
                       <br>
-                      <b>A versão SIGAiXX X.X.XX, já foi atualizada no nosso servidor e esta disponível para utilização. "Necessário reiniciar o acesso no navegador"</b><br>
+                      <b>A versão SIGAXX X.X.XX, já foi atualizada no nosso servidor e esta disponível para utilização. "Necessário reiniciar o acesso no navegador"</b><br>
                       <br>
                       Segue em anexo manual de orientação, exemplificando a implementação.<br>
                       <br>
@@ -144,11 +167,11 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     },
     {
       text: "Retorno - Em validação",
-      value: `${ticketClient}, bom dia.<br>
+      value: `${ticketClient}, ${dateTimeMessage()}<br>
                       <br>
                       Ok, muito obrigado !<br>
                       <br>
-                      Fico no aguardo do seu retorno com validação final.<br>
+                      Fico no aguardo do seu retorno com a validação da implementação.<br>
                       <br>
                       ;)
                       `,
@@ -156,7 +179,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     },
     {
       text: "Retorno - Email para Conclusão",
-      value: `${ticketClient}, bom dia.<br>
+      value: `${ticketClient}, ${dateTimeMessage()}<br>
                       <br>
                       Tentei contato ontem e hoje várias vezes pelo número ${cellphoneNumber || telephoneNumber}, mas não obtive sucesso.<br>
                       <br>
@@ -168,7 +191,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     },
     {
       text: "Release LUNA / LUNA ADM",
-      value: `${ticketClient}, bom dia. Espero que esteja tudo bem.<br>
+      value: `${ticketClient}, ${dateTimeMessage()} Espero que esteja tudo bem.<br>
                       Informo que Release de atualização dos sistemas LUNA e LUNA ADM já está liberada.<br>
                       A sua demanda já encontra-se disponível na nova versão do sistema.<br>
                       <br>
@@ -211,10 +234,6 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     optionsArray[selectDefaultText.selectedIndex - 1].situation.click();
 
     if (optionsArray[selectDefaultText.selectedIndex - 1].link) {
-      //TODO também adicionar botão de adicionar link no conteúdo do Texto
-      //TODO esse terá o mesmo comportamento de modal e irá adicionar um a com  href
-      //TODO na posição atual do cursor no texto, tlvz concatenando o inner html atual com o novo a
-
       linkModal(optionsArray[selectDefaultText.selectedIndex - 1].link);
     }
   });

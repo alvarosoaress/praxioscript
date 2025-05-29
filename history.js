@@ -1,157 +1,5 @@
 function mainHistory() {
-  const styles = `
-      .histBtn {
-        display: block;
-            background-color: #F9F9F9;
-            cursor: pointer;
-            color: #999;
-        border: 1px solid gray;
-      }
-  
-      .histBtn:hover {
-            background-color: #FFF;
-            border: 1px solid #000;
-            color: #cc0000 !important;
-      }
-  
-      .histBlock {
-        display: flex;
-            flex-direction: column;
-        gap: 10px;
-        align-items: center;
-        justify-content: center;
-        padding-inline: 0;
-      }
-  
-      .azureBtnStyle:hover {
-        color: #0078d4;
-      }
-  
-      .selectDefaultTextStyle, .selectDefaultTextStyle:focus {
-            background: #FFF;
-            vertical-align: middle;
-            background-color: #FAFAFA !important;
-      }
-  
-        .selectTopic {
-            background: #d5d5d5;
-            font-weight: bold;
-        }
-  
-        .modalBackdrop {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        width: 100vw;
-        height: 100vh;
-        background-color: #00000096;
-        }
-  
-        .modalWrapper {
-        width: 65vw;
-        height: 80vh;
-        background-color: #FFF;
-        padding: 25px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        border-radius: 10px;
-        gap: 20px;
-        }
-  
-        .modalContent {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        overflow-y: auto;
-        }
-  
-        .modalMsg {
-        max-width: 95%;
-        background-color: #ff88004a;
-        padding: 10px;
-        border-radius: 10px 0px 10px 10px;
-        word-break: break-all;
-        }
-  
-        .modalMsgOther {
-        max-width: 95%;
-        background-color: #00000012;
-        padding: 10px;
-        border-radius: 0px 10px 10px 10px;
-        }
-  
-        .modalMsgInfo {
-        font-size: 10px;
-        color: #cdcbcb;
-        }
-  
-      .modalMsgWrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        margin-inline: 5px;
-        }
-  
-        .modalTextArea {
-        width: 100%;
-        height: 100%; 
-        resize: none;
-        border-radius: 10px;
-        font-size: 18px;
-        background-color: #e4e6e9;
-        color: #696969;
-        }
-  
-        .modalTextArea:focus {
-        background-color: #e4e6e9;
-        color: #696969;
-        }
-  
-        .modalSendBtn {
-        color: #0078d4;
-        padding: 10px;
-        border-radius: 10px;
-        cursor: pointer;
-        border: none;	
-        outline: none;
-        scale: 1.5;
-        }
-  
-        .modalSendWrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100px;
-        gap: 20px;
-        }
-  
-      .copyBtnStyle {
-        display: block;
-            background-color: #F9F9F9;
-        cursor: pointer;
-        color: #999;
-        border: 1px solid rgb(197, 208, 220);
-        padding: 5px 5px 5px;
-        line-height: 18px;
-      }
-  
-      .copyBtnStyle:hover {
-            background-color: #FFF;
-            border: 1px solid #000;
-            color: #cc0000;
-      }
-      `;
-
-  GM_addStyle(styles);
+  GM_addStyle(styles.mainHistory);
 
   keyBtn();
 
@@ -222,7 +70,7 @@ async function historyButton() {
   if (oldHistBtn.length > 0) oldHistBtn.forEach((btn) => btn.remove());
 
   const ticketsWithHistory = await fetch(`${API_URL}/alltickets`).then((res) =>
-    res.json()
+    res.json(),
   );
 
   function createBtn(ticketNumber) {
@@ -278,41 +126,30 @@ async function historyModal(ticketNumber) {
   body.style.overflow = "hidden";
 
   try {
-    const modalBackdrop = document.createElement("div");
-    const modalWrapper = document.createElement("div");
-    const modalContent = document.createElement("div");
+    const modalHTML = `
+      <div class="modalBackdrop" style="top: ${scrollY}px;">
+        <div class="modalWrapper">
+          <div class="modalContent">
+            <span style="text-align:center; color:#ff88004a">Carregando...</span>
+          </div>
+          <div class="modalSendWrapper">
+            <textarea class="modalTextArea"></textarea>
+            <button class="modalSendBtn" type="button">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
 
-    const modalSendWrapper = document.createElement("div");
+    document.body.insertAdjacentHTML("beforeend", modalHTML);
 
-    const modalTextArea = document.createElement("textarea");
-    const modalSendBtn = document.createElement("button");
-
-    modalBackdrop.style.top = scrollY + "px";
-    modalBackdrop.classList.add("modalBackdrop");
-    modalWrapper.classList.add("modalWrapper");
-    modalContent.classList.add("modalContent");
-    modalTextArea.classList.add("modalTextArea");
-    modalSendBtn.classList.add("modalSendBtn");
-    modalSendBtn.type = "button";
-    modalSendWrapper.classList.add("modalSendWrapper");
-
-    modalSendBtn.innerHTML = `<i class="fa fa-paper-plane" aria-hidden="true"></i>`;
-
-    body.appendChild(modalBackdrop);
-
-    modalBackdrop.appendChild(modalWrapper);
-
-    modalWrapper.appendChild(modalContent);
-
-    modalSendWrapper.appendChild(modalTextArea);
-    modalSendWrapper.appendChild(modalSendBtn);
-
-    modalWrapper.appendChild(modalSendWrapper);
-
-    modalContent.innerHTML = `<span style="text-align:center; color:#ff88004a" >Carregando...</span>`;
+    const modalBackdrop = document.querySelector(".modalBackdrop");
+    const modalTextArea = document.querySelector(".modalTextArea");
+    const modalSendBtn = document.querySelector(".modalSendBtn");
 
     const msgList = await fetch(`${API_URL}/ticket/${ticketNumber}`).then(
-      (res) => res.json()
+      (res) => res.json(),
     );
 
     modalSendBtn.addEventListener("click", async () => {
@@ -338,40 +175,31 @@ async function historyModal(ticketNumber) {
       });
 
       modalTextArea.value = "";
-
       renderMessages(msgList, userLogged);
-
-      // socket.emit('chat message', { msg: modalTextArea.value.trim(), ticketNumber });
     });
 
     renderMessages(msgList, userLogged);
 
+    // Lida com o fechamento do modal ao clicar no backdrop
     modalBackdrop.addEventListener("click", (e) => {
       if (e.target === modalBackdrop) {
-        body.style.overflow = "auto";
-        modalBackdrop.remove();
-        modalWrapper.remove();
-        modalContent.remove();
-        modalTextArea.remove();
-        modalSendBtn.remove();
-        modalSendWrapper.remove();
-        historyButton();
+        fecharModal();
       }
     });
 
+    // Lida com o fechamento ao pressionar "Esc"
     document.addEventListener("keyup", function handleEscape(event) {
       if ((event.key === "Escape" || event.key === "Esc") && modalBackdrop) {
-        body.style.overflow = "auto";
-        modalBackdrop.remove();
-        modalWrapper.remove();
-        modalContent.remove();
-        modalTextArea.remove();
-        modalSendBtn.remove();
-        modalSendWrapper.remove();
+        fecharModal();
         document.removeEventListener("keyup", handleEscape);
-        historyButton();
       }
     });
+
+    function fecharModal() {
+      document.body.style.overflow = "auto";
+      modalBackdrop.remove();
+      historyButton();
+    }
   } catch (error) {
     console.log(error);
   }
@@ -383,7 +211,9 @@ function renderMessages(msgList, userLogged) {
   modalContent.innerHTML = "";
 
   if (!msgList.length) {
-    modalContent.innerHTML = `<span style="text-align:center; color:#cdcbcb" >Nenhuma mensagem encontrada</span>`;
+    modalContent.innerHTML = `<span style="text-align: center; color: #cdcbcb"
+  >Nenhuma mensagem encontrada</span
+>`;
     return;
   }
 
@@ -395,7 +225,7 @@ function renderMessages(msgList, userLogged) {
     modalMsgWrapper.classList.add("modalMsgWrapper");
     modalMsgInfo.classList.add("modalMsgInfo");
     modalMsg.classList.add(
-      userLogged === msg.sender ? "modalMsg" : "modalMsgOther"
+      userLogged === msg.sender ? "modalMsg" : "modalMsgOther",
     );
 
     modalMsgWrapper.style.alignItems =
@@ -405,9 +235,8 @@ function renderMessages(msgList, userLogged) {
 
     modalMsg.innerText = `${msg.message}`;
 
-    modalMsgInfo.innerHTML = ` ${msg.sender} <br> ${new Date(
-      msg.date
-    ).toLocaleString()}`;
+    modalMsgInfo.innerHTML = ` ${msg.sender} <br />
+ ${new Date(msg.date).toLocaleString()}`;
     modalMsgInfo.style.textAlign =
       userLogged === msg.sender ? "right" : "flex-left";
 
