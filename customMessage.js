@@ -25,12 +25,12 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     "Aguardando Ad": document
       .querySelector("#listaStatus")
       .querySelector(":nth-child(3)").children[0],
-    Cancelado: document
+    "Cancelado": document
       .querySelector("#listaStatus")
       .querySelector(":nth-child(4)").children[0],
-    Concluído: document
+    "Concluido": document
       .querySelector("#listaStatus")
-      .querySelector(":nth-child(4)").children[0],
+      .querySelector(":nth-child(5)").children[0],
   };
 
   const cellphoneInput = document.getElementById(
@@ -42,6 +42,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
   const emailInput = document.getElementById(
     "TicketMlo_OperadorContato_Usuario",
   );
+  const company = document.getElementById('sinalizadorCliente').innerText.slice(11);
 
   const cellphoneNumber = cellphoneInput.value;
   const telephoneNumber = telephoneInput.value;
@@ -56,7 +57,7 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
     if (hour >= 12 && hour <= 18) message = 'boa tarde.'
 
     return message;
-  } 
+  }
 
   const optionsArray = [
     {
@@ -207,6 +208,37 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                       `,
       situation: situations["Pendente Cliente"],
       link: "linkColado",
+    },
+    {
+      text: "ATENDIMENTO",
+      value: ``,
+      disabled: true,
+    },
+    {
+      text: "SVB - Segunda Via Boleto",
+      value: `Prezados ${company}, ${dateTimeMessage()}<br>
+                      <br>
+                      A título informativo, registro neste ticket que o cliente ${ticketClient} entrou em contato solicitando a segunda via do boleto.<br>
+                      <br>
+                      O cliente foi devidamente orientado a encaminhar um e-mail ao time financeiro. Após o envio, a solicitação foi atendida e a situação solucionada com sucesso.<br>
+                      <br>
+                      Dessa forma, o atendimento está sendo encerrado.
+                      `,
+      situation: situations["Concluido"],
+    },
+    {
+      text: "Cobrança BSOFT",
+      value: `Prezados, ${dateTimeMessage()}<br>
+                      <br>
+                      A cliente entrou em contato solicitando esclarecimentos a respeito das cobranças recebidas, questionando se deveria continuar efetuando o pagamento do boleto da Bsoft ou do Emissor.<br>
+                      <br>
+                      Após os devidos esclarecimentos, foi informado que os boletos emitidos pela Bsoft seriam devidamente cancelados, não sendo necessário realizar novos pagamentos referentes a esses títulos.
+                      <br>
+                      <br>
+                      Com isso, o atendimento está sendo encerrado.<br>
+                      Permaneço à disposição para quaisquer esclarecimentos adicionais.
+                      `,
+      situation: situations["Concluido"],
     },
   ];
 
