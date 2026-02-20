@@ -240,6 +240,29 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
                       `,
       situation: situations["Concluido"],
     },
+    {
+      text: "Atendimento concluído Divulgalive",
+      value: `Olá ${ticketClient}, ${dateTimeMessage()}<br>
+                  <br>
+                  Estamos <strong>concluindo</strong> o atendimento.<br>
+                  Em caso de necessidade, salientamos que este ticket pode ser reaberto <strong>em até 5 dias</strong> ou um novo ticket pode ser aberto a qualquer instante.<br>
+                  <br>
+                  A sua satisfação é o nosso <strong>maior objetivo!</strong> Agradecemos se puder <strong>avaliar</strong> o nosso atendimento e também a solução dada para a sua demanda.<br>
+                  <br>
+                  ;)<br>
+                  <br>
+                  <strong>LIVE SIGA</strong> - <i>Descubra como agilizar sua operação!</i><br>
+                  <br>
+                  <strong>Data:</strong> 26/02 | <strong>Horário:</strong> 15h | <strong>Local:</strong> Via Teams<br>
+                  <br>
+                  Participe do nosso encontro exclusivo e aprenda a organizar rotinas e padronizar processos para aumentar a produtividade do seu time utilizando o <strong>SIGA</strong>.<br>
+                  <br>
+                  Evento <span style="color:#16a765;"><strong>100% gratuito</strong></span>, mas as vagas são <span style="color:red;"><strong>limitadas</strong></span>!<br>
+                  <br>
+                  <a href="https://23423180.hs-sites.com/descubra-como-o-siga-pode-agilizar-sua-opera%C3%A7%C3%A3o" style="color:#2f6fad; cursor: pointer; font-weight: bold;" target="_blank">Clique aqui e garanta sua vaga</a>
+                  `,
+      situation: situations["Concluido"],
+    },
   ];
 
   const cabecalhoTramite = document.querySelector("#cabecalhoTramite");
