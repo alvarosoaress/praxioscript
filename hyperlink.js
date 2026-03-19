@@ -111,6 +111,10 @@ function linkModal(elementId) {
       body.style.overflow = "auto";
       modalBackdrop.remove();
     }
+
+    if (event.key === "Enter" && (document.activeElement === modalLinkText || document.activeElement === modalLink || document.activeElement === modalConfirmBtn)) {
+      modalConfirmBtn.click();
+    }
   });
 }
 

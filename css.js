@@ -219,6 +219,96 @@ const styles = {
     .modalLinkConfirmBtn:hover {
       scale: 1.1;
     }
+
+    .modalTextWrapper {
+      min-width: 20vw;
+      min-height: 20vh;
+      background-color: #fff;
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: 10px;
+      gap: 20px;
+    }
+
+    .modalTextInput {
+      width: 100%;
+      height: 100%;
+      resize: none;
+      border-radius: 10px;
+      font-size: 18px;
+      background-color: white;
+      padding: 5px;
+      color: #696969;
+      border: 1px solid #d5d5d5;
+    }
+
+    .modalTextInput:focus {
+      background-color: #e4e6e9;
+      color: #696969;
+    }
+
+    .modalTextConfirmBtn {
+      color: #0078d4;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .modalTextConfirmBtn:hover {
+      scale: 1.1;
+    }
+
+    
+    .modalWrapper {
+      min-width: 20vw;
+      min-height: 20vh;
+      background-color: #fff;
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: 10px;
+      gap: 20px;
+    }
+
+    .modalSelect {
+      width: 100%;
+      height: 100%;
+      resize: none;
+      border-radius: 10px;
+      font-size: 18px;
+      background-color: white;
+      padding: 5px;
+      color: #696969;
+      border: 1px solid #d5d5d5;
+    }
+
+    .modalSelect:focus {
+      background-color: #e4e6e9;
+      color: #696969;
+    }
+
+    .modalSelectConfirmBtn {
+      color: #0078d4;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .modalSelectConfirmBtn:hover {
+      scale: 1.1;
+    }
+  
   `,
   mainHistory: `
     .histBtn {

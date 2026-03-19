@@ -1,4 +1,4 @@
-function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
+function customMessage(ticketClient, nextMonth, ticketPSESIM, sigaModules) {
   function fillTextArea(value) {
     const textArea = document.querySelector("#EditorTramite");
     textArea.innerHTML = value;
@@ -215,53 +215,29 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
       disabled: true,
     },
     {
-      text: "SVB - Segunda Via Boleto",
-      value: `Prezados ${company}, ${dateTimeMessage()}<br>
-                      <br>
-                      A título informativo, registro neste ticket que o cliente ${ticketClient} entrou em contato solicitando a segunda via do boleto.<br>
-                      <br>
-                      O cliente foi devidamente orientado a encaminhar um e-mail ao time financeiro. Após o envio, a solicitação foi atendida e a situação solucionada com sucesso.<br>
-                      <br>
-                      Dessa forma, o atendimento está sendo encerrado.
-                      `,
-      situation: situations["Concluido"],
-    },
-    {
-      text: "Cobrança BSOFT",
-      value: `Prezados, ${dateTimeMessage()}<br>
-                      <br>
-                      A cliente entrou em contato solicitando esclarecimentos a respeito das cobranças recebidas, questionando se deveria continuar efetuando o pagamento do boleto da Bsoft ou do Emissor.<br>
-                      <br>
-                      Após os devidos esclarecimentos, foi informado que os boletos emitidos pela Bsoft seriam devidamente cancelados, não sendo necessário realizar novos pagamentos referentes a esses títulos.
-                      <br>
-                      <br>
-                      Com isso, o atendimento está sendo encerrado.<br>
-                      Permaneço à disposição para quaisquer esclarecimentos adicionais.
-                      `,
-      situation: situations["Concluido"],
-    },
-    {
-      text: "Atendimento concluído Divulgalive",
-      value: `Olá ${ticketClient}, ${dateTimeMessage()}<br>
+      text: "Usuário AutoSky",
+      value: `Olá ${ticketClient}, tudo bem ?<br>
                   <br>
-                  Estamos <strong>concluindo</strong> o atendimento.<br>
-                  Em caso de necessidade, salientamos que este ticket pode ser reaberto <strong>em até 5 dias</strong> ou um novo ticket pode ser aberto a qualquer instante.<br>
+                  Venho registrar a criação de usuário para acesso ao sistema, através do e-mail informado.<br>
+                  Um link para cadastro de senha será encaminhado ao e-mail, pode chegar em sua caixa de spam ou lixo eletrônico, verifique por gentileza.<br>
+                  Caso não consiga cadastrar a senha pelo link enviado, selecione a opção "Esqueci minha senha" no momento de acessar o sistema, um novo link será enviado.<br>
                   <br>
-                  A sua satisfação é o nosso <strong>maior objetivo!</strong> Agradecemos se puder <strong>avaliar</strong> o nosso atendimento e também a solução dada para a sua demanda.<br>
-                  <br>
-                  ;)<br>
-                  <br>
-                  <strong>LIVE SIGA</strong> - <i>Descubra como agilizar sua operação!</i><br>
-                  <br>
-                  <strong>Data:</strong> 26/02 | <strong>Horário:</strong> 15h | <strong>Local:</strong> Via Teams<br>
-                  <br>
-                  Participe do nosso encontro exclusivo e aprenda a organizar rotinas e padronizar processos para aumentar a produtividade do seu time utilizando o <strong>SIGA</strong>.<br>
-                  <br>
-                  Evento <span style="color:#16a765;"><strong>100% gratuito</strong></span>, mas as vagas são <span style="color:red;"><strong>limitadas</strong></span>!<br>
-                  <br>
-                  <a href="https://23423180.hs-sites.com/descubra-como-o-siga-pode-agilizar-sua-opera%C3%A7%C3%A3o" style="color:#2f6fad; cursor: pointer; font-weight: bold;" target="_blank">Clique aqui e garanta sua vaga</a>
+                  Aguardamos seu retorno confirmando o acesso para encerrarmos o ticket.
                   `,
-      situation: situations["Concluido"],
+      situation: situations["Pendente Cliente"],
+    },
+    {
+      text: "Atualização de módulo",
+      value: `Olá ${ticketClient}, tudo bem ?<br>
+                  <br>
+                  A cargo informativo, venho registrar a atualização do módulo de <span style="color:#ff7537; font-weight: bold;" id="modulo">TEXTO</span>, para uma versão mais recente.<br>
+                  Devido à nova Reforma Tributária, nosso time identificou a necessidade de sua atualização.<br>
+                  <br>
+                  Em caso de dúvidas, não hesite em nos contatar.
+                  `,
+      situation: situations["Em andamento"],
+      custom: "modulo",
+      options: sigaModules,
     },
   ];
 
@@ -285,11 +261,24 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM) {
   createOptions(optionsArray);
 
   selectDefaultText.addEventListener("change", async (e) => {
-    fillTextArea(e.target.value);
-    optionsArray[selectDefaultText.selectedIndex - 1].situation.click();
+    const selectedOption = optionsArray[selectDefaultText.selectedIndex - 1];
 
-    if (optionsArray[selectDefaultText.selectedIndex - 1].link) {
-      linkModal(optionsArray[selectDefaultText.selectedIndex - 1].link);
+    fillTextArea(e.target.value);
+    selectedOption.situation.click();
+
+    // Verificar se a opção selecionada possui um link associado e abrir o modal se necessário
+    if (selectedOption.link) {
+      linkModal(selectedOption.link);
+    }
+
+    // Verificar se a opção selecionada possui um campo customizado e abrir o modal para preenchimento se necessário
+    if (selectedOption.custom && !selectedOption.options) {
+      customMessageTextModal(selectedOption.custom);
+    }
+
+    // Verificar se a opção selecionada possui um campo customizado com opções pré-definidas e abrir o modal para seleção se necessário
+    if (selectedOption.custom && selectedOption.options.length > 0) {
+      customMessageSelectModal(selectedOption.custom, selectedOption.options);
     }
   });
 

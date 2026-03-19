@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.8.0
+// @version      1.9.0
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro (e Breno quebrando o script)
 // @match        https://portaldocliente.praxio.com.br/Ticket*
@@ -17,6 +17,8 @@
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/history.js
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/azure.js
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/hyperlink.js
+// @require      https://github.com/alvarosoaress/praxioscript/raw/master/customMessageText.js
+// @require      https://github.com/alvarosoaress/praxioscript/raw/master/customMessageSelect.js
 // -- @require      https://github.com/alvarosoaress/praxioscript/raw/master/alert.js
 // @downloadURL  https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
 // @updateURL    https://github.com/alvarosoaress/praxioscript/raw/master/utilsPraxio.user.js
@@ -54,7 +56,7 @@ const API_URL = localStorage.getItem("apiKey")
 function mainTicket() {
   GM_addStyle(styles.mainTicket);
 
-  const { ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM } =
+  const { ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM, sigaModules } =
     ticketVars();
 
   document.querySelector(".copyBtnStyle")
@@ -63,7 +65,7 @@ function mainTicket() {
 
   !document.querySelector(".selectDefaultTextStyle") &&
     !document.querySelector("#msgAvaliacao1")
-    ? customMessage(ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM)
+    ? customMessage(ticketClient, nextMonth, ticketPSESIM, sigaModules)
     : null;
 
   document.querySelector(".histBtn") ? null : historyButton();
@@ -115,7 +117,90 @@ function ticketVars() {
   const ticketPSESIM = findN();
   const allTicketPSESIM = findAllN();
 
-  return { ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM };
+  const sigaModules = [
+    {
+      text: "Abastecimento",
+      value: "AB",
+    },
+    {
+      text: "Contabilidade",
+      value: "CB",
+    },
+    {
+      text: "Controle de Estoque",
+      value: "CE",
+    },
+    {
+      text: "Controle Financeiro ",
+      value: "CF",
+    },
+    {
+      text: "Compras",
+      value: "CO",
+    },
+    {
+      text: "Controle de Portaria",
+      value: "CP",
+    },
+    {
+      text: "Quiosque de Tesouraria",
+      value: "CXQ",
+    },
+    {
+      text: "Controle de Tráfego",
+      value: "CT",
+    },
+    {
+      text: "Tesouraria",
+      value: "CX",
+    },
+    {
+      text: "Escala de Horário",
+      value: "EH",
+    },
+    {
+      text: "Controle de Ponto",
+      value: "EP",
+    },
+    {
+      text: "Fretamento",
+      value: "FR",
+    },
+    {
+      text: "Faturamento",
+      value: "FT",
+    },
+    {
+      text: "Livros Fiscais",
+      value: "LF",
+    },
+    {
+      text: "Manutenção de Frota",
+      value: "MF",
+    },
+    {
+      text: "Mapa de Controle Operacional",
+      value: "MCO",
+    },
+    {
+      text: "Quiosque de Borracharia",
+      value: "PN",
+    },
+    {
+      text: "Recursos Humanos",
+      value: "RH",
+    },
+    {
+      text: "Quiosque de Serviços",
+      value: "SV",
+    },
+    {
+      text: "Conhecimento de Transportes",
+      value: "TR",
+    }
+  ]
+
+  return { ticketClient, nextMonth, ticketPSESIM, allTicketPSESIM, sigaModules };
 }
 
 // credits: https://gist.githubusercontent.com/benjamingr/0433b52559ad61f6746be786525e97e8/raw/df41dfca476c1b06db4d8480b6e47ddd7e190c6a/intercept-network-requests.js
