@@ -28,9 +28,7 @@ const styles = {
       color: #999;
       border: 1px solid gray;
       line-height: 1.5;
-      padding: 1.5px 5px;
-      padding-bottom: 3px;
-      margin-inline: 2px;
+      padding: 2px 5px;
     }
 
     .histBtn:hover {

@@ -3,15 +3,19 @@
 // @namespace
 // @version      1.9.0
 // @description  Utilitários para o portal do cliente Praxio
-// @author       Cálvaro (e Breno quebrando o script)
+// @author       Cálvaro, Breno e Vitor
 // @match        https://portaldocliente.praxio.com.br/Ticket*
 // @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/*/Autumn/*/*?workitem=*
 // @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/*/Autumn/*/*&workitem=*
 // @match        https://dev.azure.com/praxio/Autumn/_sprints/taskboard/*/Autumn/*/*
 // @match        https://dev.azure.com/praxio/Autumn/_boards/board/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=praxio.com.br
+// @require      https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js
+// @require      https://cdn.jsdelivr.net/npm/mammoth/mammoth.browser.min.js
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/css.js
 // @require 	   https://cdn.jsdelivr.net/gh/CoeJoder/waitForKeyElements.js@v1.3/waitForKeyElements.js
+// @require      https://github.com/alvarosoaress/praxioscript/raw/master/sla.user.js
+// @require      https://github.com/alvarosoaress/praxioscript/raw/master/utils.user.js
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/customButton.js
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/customMessage.js
 // @require      https://github.com/alvarosoaress/praxioscript/raw/master/history.js
