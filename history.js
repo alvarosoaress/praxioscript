@@ -95,6 +95,10 @@ async function historyButton() {
 
   if (document.getElementById("btnSeguir")) {
     const buttonsRow = document.getElementById("btnSeguir").parentElement;
+    buttonsRow.style.display = "flex";
+    buttonsRow.style.gap = "5px";
+    buttonsRow.style.alignItems = "end";
+
     const ticketNumber = document
       .getElementById("TicketMlo_Protocolo")
       .value.replace(/\D/g, "");
