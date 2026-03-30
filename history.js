@@ -248,6 +248,8 @@ async function initHistoryColumn() {
 function mainHistory() {
   GM_addStyle(styles.mainHistory);
 
+  keyBtn();
+
   // Na página do grid, usa injeção de coluna
   if (!document.getElementById("btnSeguir")) {
     initHistoryColumn();
@@ -269,6 +271,44 @@ function mainHistory() {
     // Na página individual do ticket, mantém comportamento original
     historyButtonTicketPage();
   }
+}
+
+function keyBtn() {
+  const navSearch = document.querySelector("#nav-search");
+
+  const keyBtn = document.createElement("btn");
+
+  navSearch.style.display = "flex";
+  navSearch.style.gap = "15px";
+  navSearch.style.alignItems = "center";
+
+  keyBtn.innerHTML = `<i class="fa fa-key"></i>`;
+  keyBtn.classList = "copyBtnStyle";
+  navSearch.appendChild(keyBtn);
+
+  keyBtn.addEventListener("click", () => {
+    const key = prompt("Digite a chave para realizar as requisições", "");
+
+    if (key === null) return;
+
+    if (key === "") {
+      alert("Chave inválida");
+      return;
+    }
+
+    const keyBtn = document.querySelector(".copyBtnStyle");
+
+    keyBtn.innerHTML = `<i class="fa fa-key"></i> Chave salva!`;
+    keyBtn.style.color = "#0078d4";
+
+    setTimeout(() => {
+      keyBtn.innerHTML = `<i class="fa fa-key"></i>`;
+      keyBtn.style.color = "#999";
+      window.location.reload();
+    }, 1000);
+
+    localStorage.setItem("apiKey", key);
+  });
 }
 
 // ======================== TICKET PAGE (comportamento original) ========================
