@@ -31,7 +31,7 @@
 // ==/UserScript==
 
 const API_URL = localStorage.getItem("apiKey")
-  ? localStorage.getItem("apiKey").slice(-31)
+  ? localStorage.getItem("apiKey").slice(104)
   : null;
 (async function () {
   "use strict";
@@ -50,6 +50,7 @@ const API_URL = localStorage.getItem("apiKey")
   } else if (page.home) {
     waitForKeyElements("#grdTicket", () => {
       mainHistory();
+      initSLAColumns();
       // alertBtnHome();
     });
   } else {
@@ -72,7 +73,7 @@ function mainTicket() {
     ? customMessage(ticketClient, nextMonth, ticketPSESIM, sigaModules)
     : null;
 
-  document.querySelector(".histBtn") ? null : historyButton();
+  document.querySelector(".histBtn") ? null : historyButtonTicketPage();
 }
 
 function ticketVars() {

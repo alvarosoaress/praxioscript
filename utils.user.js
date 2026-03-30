@@ -30,8 +30,11 @@ function formatXML(xml) {
 }
 
 async function createTabEmpresa() {
-    const tabsContainer = document.querySelector("#tabCliente").parentElement
-    const tabEmpresa = document.querySelector("#tabCliente").cloneNode(false)
+    const tabCliente = document.querySelector("#tabCliente");
+    if (!tabCliente) return;
+
+    const tabsContainer = tabCliente.parentElement
+    const tabEmpresa = tabCliente.cloneNode(false)
     const nome_empresa = document.querySelector("#sinalizadorCliente").innerText.split("Cliente - ")[1]
 
     tabEmpresa.id = "tabDadosEmpresa"
@@ -1008,18 +1011,9 @@ function createImagesView() {
 }
 
 function insertSLA() {
-    let slaList = JSON.parse(localStorage.getItem("sla-list"))
-    const idTicket = window.location.href.split("https://portaldocliente.praxio.com.br/Ticket/TicketPrincipal/")[1].replace("#", "");
-
-    let ticket = slaList.find(ticket => ticket.idTicket == idTicket)
-    let ticketSLA = `SLA: ${formatMinutesToHHMM(ticket.sla)}`
-
-    const sla_span = document.createElement("span")
-    sla_span.style = `margin-right: 15px; font-size: 14px; color: ${(ticket?.sla / 60) < 15 ? 'green' : (ticket?.sla / 60) < 23 ? 'blue' : 'red'}; font-weight: bold; order: -1;`
-    sla_span.innerText = ticketSLA
-
-    document.querySelector("#btnIA").parentNode.insertBefore(sla_span, document.querySelector("#btnIA"));
-
+    if (typeof insertSLABadge === "function") {
+        insertSLABadge();
+    }
 }
 
 (async function () {
