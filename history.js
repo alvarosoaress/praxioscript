@@ -21,7 +21,9 @@ function _getHistoryCache() {
  * Retorna array de strings (ticket numbers).
  */
 async function _fetchTicketsWithHistory() {
-  return fetch(`${API_URL}/alltickets`).then(res => res.json());
+  return fetch(`${API_URL}/alltickets`, {
+    headers: { "Authorization": API_KEY },
+  }).then(res => res.json());
 }
 
 /**
@@ -345,7 +347,9 @@ async function historyModal(ticketNumber) {
     const modalTextArea = document.querySelector(".modalTextArea");
     const modalSendBtn = document.querySelector(".modalSendBtn");
 
-    const msgList = await fetch(`${API_URL}/ticket/${ticketNumber}`).then(
+    const msgList = await fetch(`${API_URL}/ticket/${ticketNumber}`, {
+      headers: { "Authorization": API_KEY },
+    }).then(
       (res) => res.json(),
     );
 
@@ -368,7 +372,7 @@ async function historyModal(ticketNumber) {
           sender: userLogged,
         }),
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": API_KEY },
       });
 
       modalTextArea.value = "";

@@ -75,7 +75,7 @@ async function fetchSLAData() {
 
     const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": API_KEY },
         body: JSON.stringify({ team: _getSlaTeam() }),
         signal: AbortSignal.timeout(120000),
     });

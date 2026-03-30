@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      1.9.0
+// @version      2.0.0
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro, Breno e Vitor
 // @match        https://portaldocliente.praxio.com.br/Ticket*
@@ -33,6 +33,11 @@
 const API_URL = localStorage.getItem("apiKey")
   ? localStorage.getItem("apiKey").slice(104)
   : null;
+
+const API_KEY = localStorage.getItem("apiKey")
+  ? localStorage.getItem("apiKey").slice(0, 104)
+  : null;
+
 (async function () {
   "use strict";
 
