@@ -13,6 +13,10 @@ function _getSlaTeam() {
         "ELISMAR",
         "BRENO.AUGUSTO",
         "JONATAS.BARBOSA",
+        "ALEX.REZENDE",
+        "CASSIO.AMANCIO",
+        "FABRICIO.GHORAYEB",
+        "WANDERSON.JUNIOR",
 
         //SIGA
         "PEDRO.JORDAO",
@@ -33,7 +37,10 @@ function _getSlaTeam() {
         "VICTOR.SOUSA",
         "RONALDO.REIS",
         "MARCOS.SILVA",
-        "DEYMERSON.MOREIRA"
+        "DEYMERSON.MOREIRA",
+        "ANA.PAIXÃO",
+        "ITALO.THIAGO",
+        "JEFFERSON.EMANOEL",
     ];
 }
 
