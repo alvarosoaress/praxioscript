@@ -287,13 +287,17 @@ function keyBtn() {
   navSearch.appendChild(keyBtn);
 
   keyBtn.addEventListener("click", () => {
-    const key = prompt("Digite a chave para realizar as requisições", "");
+    let key = prompt("Digite a chave para realizar as requisições", "");
 
     if (key === null) return;
 
     if (key === "") {
       alert("Chave inválida");
       return;
+    }
+
+    if (key.at(key.length - 1) === "/") {
+      key = key.slice(0, -1);
     }
 
     const keyBtn = document.querySelector(".copyBtnStyle");

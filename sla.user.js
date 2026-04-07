@@ -150,9 +150,9 @@ async function loadSLAData() {
 
 function _slaColor(minutes) {
     if (minutes == null) return "#999";
-    if (minutes < 120) return "#2e7d32";    // verde  — < 2h
-    if (minutes < 480) return "#1565c0";    // azul   — < 8h
-    return "#c62828";                        // vermelho — >= 8h
+    if (minutes <= 480) return "#2e7d32";    // verde   — < 8h
+    if (minutes > 480 && minutes < 1440) return "#1565c0";    // azul    — < 1d
+    return "#c62828";                        // vermelho — >= 1d
 }
 
 function _vocColor(minutes) {

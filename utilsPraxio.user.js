@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Utils Portal
 // @namespace
-// @version      2.0.1
+// @version      2.0.2
 // @description  Utilitários para o portal do cliente Praxio
 // @author       Cálvaro, Breno e Vitor
 // @match        https://portaldocliente.praxio.com.br/Ticket*
