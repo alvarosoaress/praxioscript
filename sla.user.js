@@ -293,9 +293,9 @@ function injectSLAColumns(ticketMap) {
         } else if (ticket) {
             const slaText = ticket.slaFormatted || "-";
             const color = _slaColor(ticket.slaMinutes);
-            tdSLA.innerHTML = `<span style="color:${color}; font-weight:600; font-size:12px;">${slaText}</span>`;
+            tdSLA.innerHTML = `<a href="https://portal-dashboard.188720391.xyz/ticket/${ticketId}" target="_blank" style="color:${color}; font-weight:600; font-size:12px;">${slaText}</a>`;
         } else {
-            tdSLA.innerHTML = '<span style="color:#bbb; font-size:11px;">-</span>';
+            tdSLA.innerHTML = '<a style="color:#bbb; font-size:11px;">-</a>';
         }
         row.insertBefore(tdSLA, ref);
 
