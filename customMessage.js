@@ -82,6 +82,17 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, sigaModules) {
       situation: situations["Aguardando Ad"],
     },
     {
+      text: "Retorno - Tentativa de contato",
+      value: `Olá, ${ticketClient}, tudo bem ?
+                      <br>
+                      <br>Tentei entrar em contato com você pelo telefone ${cellphoneNumber || telephoneNumber}, mas infelizmente não obtive sucesso.<br>
+                      <br>Poderia me confirmar se este é o seu número correto? Caso prefira, fique à vontade para me informar outro telefone de contato, além do melhor dia e horário para conversarmos.
+                      <br>
+                      <br>Fico no aguardo e sigo à disposição para te ajudar !
+                      `,
+      situation: situations["Aguardando Ad"],
+    },
+    {
       text: "TESTE",
       value: ``,
       disabled: true,
