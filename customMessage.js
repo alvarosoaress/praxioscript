@@ -93,6 +93,17 @@ function customMessage(ticketClient, nextMonth, ticketPSESIM, sigaModules) {
       situation: situations["Aguardando Ad"],
     },
     {
+      text: "QA - demanda concluída cliente nuvem",
+      value: `${ticketClient}, ${dateTimeMessage()}<br><br>
+                      Informamos que esta demanda foi concluída.<br><br>
+                      Segue abaixo o link para acesso ao manual de uso desta solicitação, gentileza ler com atenção e caso esteja de acordo com o que foi apresentado no manual, nos sinalizar uma data para realizarmos a atualização de sua versão.<br>
+                      <br>
+                      <b><i><a href="" id="linkColado" target="_blank"><font>TEXTO LINK</font></a></i></b><br>
+                      `,
+      situation: situations["Pendente Cliente"],
+      link: "linkColado",
+    },
+    {
       text: "TESTE",
       value: ``,
       disabled: true,
