@@ -41,6 +41,7 @@ function _getSlaTeam() {
         "ANA.PAIXÃO",
         "ITALO.THIAGO",
         "JEFFERSON.EMANOEL",
+        "PEDRO.DINIZ"
     ];
 }
 
